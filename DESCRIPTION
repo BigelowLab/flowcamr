@@ -1,0 +1,12 @@
+Package: flowcamr
+Maintainer: Ben Tupper <btupper@bigelow.org>
+Author: Ben Tupper <btupper@bigelow.org>
+URL: https://github.com/btupper/flowcamr
+Version: 0.1
+License: GPL (>= 2)
+Title: flowcamr - R tools for FlowCam 
+Description: Tools for working with FlowCam data.
+Depends:
+    R (>= 3.0)
+Imports:
+    methods
