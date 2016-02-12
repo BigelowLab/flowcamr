@@ -35,11 +35,20 @@ fringe_size <- as.numeric(Cfg$get("Fluid", "FringeSize", default = "3.14"))
 + Classifications
 
 
-Read .cla files using `read_classification()` Example data is included.  Try reading into a data.frame as well as FlowCam_class S3 object.
+Read .cla files using `read_classifications()` Example data is included.  Try reading into a data.frame as well as FlowCam_class S3 object.
 ```R
 filename <- system.file("extdata", "201-045311.cla", package = "flowcamr")
-x <- read_classification(filename, form = 'data.frame')
-x
-X <- read_classification(filename, form = 'FlowCam_class')
-X
+x <- read_classifications(filename, form = 'data.frame')
+head(x)
+> head(x)
+#   class_name particle_id classification
+# 1          1           1           test
+# 2          1          12           test
+# 3          1          14           test
+# 4          1          16           test
+# 5          1          22           test
+# 6          1          44           test
+
+X <- read_classifications(filename, form = 'FlowCam_class')
+str(X)
 ```
