@@ -12,6 +12,7 @@
 #'    \item particles character, the particle IDs
 #' }
 #' 
+#' @export
 #' @param txt the block of text to scan
 #' @param iline the starting line
 #' @return a list of klass and iline
@@ -61,6 +62,7 @@ scan_class <- function(txt, iline){
 #'    \item classes list, zero of more klass objects
 #' }
 #'
+#' @export
 #' @param txt the input text vector
 #' @param X FlowCam_class object
 #' @param iline the starting line
@@ -96,6 +98,7 @@ scan_classification <- function(txt, X, iline){
 
 #' Give a list of klasses, return a data.frame of [class_name, particle_id]
 #' 
+#' @export
 #' @param x a list of klass objects
 #' @return data.frame
 unpack_classes <- function(x){
@@ -117,6 +120,7 @@ unpack_classes <- function(x){
 #' Given a FlowCam_class object, return a data.frame of 
 #'     [class_name, particle_id, classification]
 #'
+#' @export
 #' @param X a FlowCam_class object
 #' @return data.frame
 unpack_classifications <- function(X){
@@ -146,6 +150,7 @@ unpack_classifications <- function(X){
 #'    \item classifications, a list of zero or more \code{klassification} objects
 #' }
 #'
+#' @export
 #' @param filename the name of the file
 #' @param form character, desired output - either 'data.frame' or 'FlowCam_class'
 #' @return either a FlowCam_class object or a data.frame 
@@ -180,6 +185,7 @@ read_classifications <- function(filename,
 
 #' Convert a .cla file to a flat table in CSV format
 #'
+#' @export
 #' @param filename the name of the file
 #' @param dest the name of the destination file, by default '<filename.cla>.csv'
 #' @return the data.frame invisibly
@@ -192,6 +198,13 @@ export_classifications <- function(filename, dest){
    invisible(x)
 }
 
-read_classification_example <- function(){
-   
+#' Read an example classification file
+#' 
+#' @export
+#' @param filename the name of the file to read
+#' @param ... further arguments for \code{read_classification()}
+read_classification_example <- function(
+   filename = system.file("extdata", "201-045311.cla", package = "flowcamr"), 
+   ...){
+   read_classification(filename, ...)
 }
