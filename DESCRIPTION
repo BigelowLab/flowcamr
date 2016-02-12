@@ -9,4 +9,5 @@ Description: Tools for working with FlowCam data.
 Depends:
     R (>= 3.0)
 Imports:
-    methods
+    methods,
+    configurator

@@ -12,12 +12,34 @@ install_github('BigelowLab/flowcamr')
 
 #### Utilities
 
++ Context
+
+Read the context configuration file into a ConfigurationRefClass object using `read_context()`. An example is included.
+
+```R
+filename <- system.file("extdata", "201-045311.ctx", package = "flowcamr")
+Cfg <- read_context(filename)
+
+# print it
+Cfg
+# [Software]
+# SoftwareName=VisualSpreadsheet
+# SoftwareVersion=3.4.5
+# SoftwareBetaFlag=0
+# ...
+
+# get the FringeSize
+fringe_size <- as.numeric(Cfg$get("Fluid", "FringeSize", default = "3.14"))
+```
+
 + Classifications
 
-Read .cla files using `read_classification()`  Example data is included and can be accessed using `read_classification_example()`
+
+Read .cla files using `read_classification()` Example data is included.  Try reading into a data.frame as well as FlowCam_class S3 object.
 ```R
-x <- read_classification_example(form = 'data.frame')
+filename <- system.file("extdata", "201-045311.cla", package = "flowcamr")
+x <- read_classification(filename, form = 'data.frame')
 x
-X <- read_classification_example(form = 'FlowCam_class')
+X <- read_classification(filename, form = 'FlowCam_class')
 X
 ```
