@@ -43,6 +43,25 @@ FlowCamRefClass <- setRefClass("FlowCamRefClass",
    ) # methods
 ) # setRefClass
 
+
+
+#' Find the indices of particles labeled as identified
+#'
+#' @name FlowCamRefClass_which_labeled
+#' @param label one or more labels to search for
+#' @param column the value of the user label column
+#' @return zero or more indices of labeled items
+NULL
+FlowCamRefClass$methods(
+   which_labeled = function(label = 'none', column = 'PP_UserLabel'){
+      index = integer()
+      if (column[1] %in% colnames(.self$data)){
+         index <- which(.self$data[,column[1]] %in% label)
+      }
+      return(index)
+   } 
+)
+#' 
 #' Summarize by class and volume
 #' 
 #' @name FlowCamRefClass_volume_summary

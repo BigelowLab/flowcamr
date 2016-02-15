@@ -18,9 +18,9 @@ install_github('BigelowLab/flowcamr')
 
 #### Utilities
 
-+ FlowCam
+###### FlowCam
 
-The FlowCamRefClass is a simple container for data, post-processed data, context and classification data.  It has the follwoing fields...
+The FlowCamRefClass is a simple container for data, post-processed data, context and classification data.  It has the following fields...
 
     path - the fully qualified path description
     name - the basename of path
@@ -29,7 +29,9 @@ The FlowCamRefClass is a simple container for data, post-processed data, context
     cla - classification data stored in FlowCam_class S3 object
     data - a data.frame with the original data (from path/name.csv) and possibly post-processed data prefixed with 'PP_'
 
- 
+
+Here is an example to create and print a FlowCamRefClass instance.
+
 ```R
 X <- FlowCam("~/Dropbox/OSM 2016 Biovolume/LS2_1M/203-210524")
 X
@@ -62,8 +64,22 @@ X
 # 9D          9D     8   292443.006
 ```
 
+###### FlowCamGroup
 
-+ Context
+Read one or more FlowCamRefClass objects into one list-like object.
+
+```R
+XX <- FLowCamgGroup(some_list_of_paths)
+
+# get tally of items labeled '1A'
+ix <- which_labeled(XX, label = '1A')
+
+# get a volume-by-class summary table
+vs <- volume_summary(XX, bind = TRUE)
+
+```
+
+###### Context
 
 Read the context configuration file into a ConfigurationRefClass object using `read_context()`. An example is included.
 
@@ -83,7 +99,7 @@ Cfg
 fringe_size <- as.numeric(Cfg$get("Fluid", "FringeSize", default = "3.14"))
 ```
 
-+ Classifications
+###### Classifications
 
 
 Read .cla files using `read_classifications()` Example data is included.  Try reading into a data.frame as well as FlowCam_class S3 object.
