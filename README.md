@@ -33,6 +33,7 @@ The FlowCamRefClass is a simple container for data, post-processed data, context
 Here is an example to create and print a FlowCamRefClass instance.
 
 ```R
+library(flowcamr)
 X <- FlowCam("~/Dropbox/OSM 2016 Biovolume/LS2_1M/203-210524")
 X
 # Path: ~/Dropbox/OSM 2016 Biovolume/LS2_1M/203-210524 
