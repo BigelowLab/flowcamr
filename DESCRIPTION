@@ -4,10 +4,11 @@ Author: Ben Tupper <btupper@bigelow.org>
 URL: https://github.com/BigelowLab/flowcamr
 Version: 0.1
 License: GPL (>= 2)
-Title: flowcamr - R tools for FlowCam 
+Title: flowcamr - R tools for FlowCam
 Description: Tools for working with FlowCam data.
 Depends:
     R (>= 3.0)
 Imports:
     methods,
     configurator
+RoxygenNote: 5.0.1

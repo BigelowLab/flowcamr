@@ -12,11 +12,33 @@ R utilities for working with [FlowCam](http://www.fluidimaging.com/) data.
 It's easy to install using Hadley Wickham's [devtools](http://cran.r-project.org/web/packages/devtools/index.html).
 
 ```r
+# if you don't have devtools already then do this first
+# install.packages("devtools")
+
 library(devtools)
+install_github('BigelowLab/configurator')
 install_github('BigelowLab/flowcamr')
 ```
 
-#### Utilities
+#### MS Windows users note
+
+Please note that [path separators](https://cran.r-project.org/bin/windows/base/old/2.1.0/rw-FAQ.html#R-can_0027t-find-my-file) in Windows require some attention.  
+
+These work as `\\` and `/` are equivalent ...
+
+```
+"D:\\SABOR FCAM Classified\\LCL CLASSIFIED_2016-01-20.SABOR.txt"
+"D:/SABOR FCAM Classified/LCL CLASSIFIED_2016-01-20.SABOR.txt"
+```
+
+This doesn't work ...
+
+```
+"D:\SABOR FCAM Classified\LCL CLASSIFIED_2016-01-20.SABOR.txt"
+```
+
+
+#### Utilities - to make the user's life easier
 
 ###### FlowCam
 
@@ -65,20 +87,48 @@ X
 # 9D          9D     8   292443.006
 ```
 
+Users can get help on FlowCam using ```?FlowCam```
+
 ###### FlowCamGroup
 
 Read one or more FlowCamRefClass objects into one list-like object.
 
 ```R
-XX <- FLowCamgGroup(some_list_of_paths)
 
-# get tally of items labeled '1A'
-ix <- which_labeled(XX, label = '1A')
+# if you have a character vector of directories
+XX <- FlowCamGroup(some_list_of_paths)
 
-# get a volume-by-class summary table
-vs <- volume_summary(XX, bind = TRUE)
+# or if you have prepped a file, say 'SABOR.txt',  that list these directories...
+# 
+# D:\SABOR FCAM Classified\LCL CLASSIFIED_2016-01-20\1634FTconc\216-002758
+# D:\SABOR FCAM Classified\LCL CLASSIFIED_2016-01-20\1716FTconc\210-175915
+
+XX <- FlowCamGroup(filename = "D:/SABOR FCAM Classified/LCL CLASSIFIED_2016-01-20.SABOR.txt")
+XX
+```
+
+Your can requested the particle IDs for all particles of a certain class.
 
 ```
+# get tally of items labeled '1A'
+ix <- which_labeled(XX, label = '1A')
+ix
+```
+
+And you can request a aggregate volume by class summary.  By default the summary is saved as a CSV file as 'volume_summary.csv'.  Just where this is saved depends... (a) if you provide a list it will be saved in the parent directory of the first flowcam directory in the list, or (b) if you provide a file that lists the flowcam directories then it is saved in it's parent directory (beside the input file), or, finally, (c) you can explicitly provide the path and filename to save.
+
+```
+# get a volume-by-class summary table, save by default
+vs <- volume_summary(XX)
+
+# get a volume-by-class summary table, save to specified file
+vs <- volume_summary(XX, filename = 'C:/my/path/volume_summary.csv')
+
+```
+
+Users can get help on FlowCamGroup using ```?FlowCamGroup```
+
+#### Developer Tools - to make the developer's life easier
 
 ###### Context
 
@@ -101,7 +151,6 @@ fringe_size <- as.numeric(Cfg$get("Fluid", "FringeSize", default = "3.14"))
 ```
 
 ###### Classifications
-
 
 Read .cla files using `read_classifications()` Example data is included.  Try reading into a data.frame as well as FlowCam_class S3 object.
 ```R
