@@ -51,7 +51,7 @@ which_labeled <- function(x, ...){
 #' Pretty print a FlowCamGroup
 #' 
 #' @export
-#' @methods print FlowCamGroup
+# @methods print FlowCamGroup
 #' @param x a FlowCamGroup object
 print.FlowCamGroup <- function(x){
    if (!inherits(x, 'FlowCamGroup')){ return(invisible(NULL)) }

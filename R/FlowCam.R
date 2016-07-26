@@ -74,7 +74,7 @@ FlowCamRefClass$methods(
       if (all(c('PP_UserLabel', "PP_Vol") %in% colnames(.self$data)) ){
          tx <- table(.self$data[,'PP_UserLabel'])
          x <- split(.self$data, .self$data[,'PP_UserLabel'])
-         sx <- sapply(x, function(x) sum(x[,'PP_Vol']) )
+         sx <- sapply(x, function(x) sum(x[,'PP_Vol'], na.rm = TRUE) )
          s <- data.frame(UserLabel = names(tx), Count = as.vector(tx), Volume = sx,
                stringsAsFactors = FALSE) 
       } else {
@@ -128,29 +128,9 @@ FlowCamRefClass$methods(
 NULL
 FlowCamRefClass$methods(
    readData = function(){
-      OK <- FALSE
-      ff <-.self$get_filename("data")
-      tryCatch(
-         x <- read.csv(ff, stringsAsFactors = FALSE),
-         finally = OK)
-              
-      ff <-.self$get_filename("postdata")
-      tryCatch(
-         y <- read.csv(ff, stringsAsFactors = FALSE, row.names = 1),
-         finally = OK)
-         
-      if (nrow(x) != nrow(y)){
-         warning("data and postdata have differing number of rows - not merging",
-           immediate. = TRUE)
-         .self$data <- x
-      } else {
-         colnames(y) <- paste0("PP_", colnames(y))
-         .self$data <- data.frame(x,y, stringsAsFactors = FALSE)
-      }
-      
-      TRUE
-   }
-)
+      .self$data <- flowcam_read_data(.self)
+      !is.null(.self$data)
+   })
 
 #' Retrieve a filename by keyword
 #'
@@ -186,6 +166,7 @@ FlowCamRefClass$methods(
       ok <- sapply(ff,file.exists)
       ff <- ff[ok]
    }
+   if (length(ff) == 0) ff <- ""
    return(ff)  
 })
 
