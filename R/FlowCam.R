@@ -65,11 +65,14 @@ FlowCamRefClass$methods(
 #' Summarize by class and volume
 #' 
 #' @name FlowCamRefClass_volume_summary
-#' @param include_name logical if TRUE include a colume for the data set name
+#' @param include_name logical if TRUE include a column for the data set name
+#' @param save_file logical if TRUE saves as CSV
+#' @param filename character if save_file is TRUE then save to this file
 #' @return a data frame of 'UserLabel', 'Count' and 'Volume' or NULL
 NULL
 FlowCamRefClass$methods(
-   volume_summary = function(include_name = FALSE){
+   volume_summary = function(include_name = FALSE, 
+        save_file = FALSE, filename = .self$get_file(what="volume_summary")){
       if (!is.data.frame(.self$data)) return(NULL)
       if (all(c('PP_UserLabel', "PP_Vol") %in% colnames(.self$data)) ){
          tx <- table(.self$data[,'PP_UserLabel'])
@@ -85,6 +88,7 @@ FlowCamRefClass$methods(
          s <- data.frame(name = rep(.self$name, nrow(s)), 
             s, stringsAsFactors = FALSE)
       }
+      if (save_file) write.csv(s, filename[1], row.names = FALSE)
       s
    })
 
@@ -141,7 +145,7 @@ FlowCamRefClass$methods(
 NULL
 FlowCamRefClass$methods(
    get_filename = function(what = c("data", "postdata", "context", "classification", 
-      "collage", "mask", "raw", "background", "cal")[1], test = TRUE){
+      "collage", "mask", "raw", "background", "cal", "volume_summary")[1], test = TRUE){
  
    select_files <- function(pattern, files = .self$filelist){
       ix <- grepl(pattern, files)
@@ -158,6 +162,7 @@ FlowCamRefClass$methods(
       "raw"= select_files("^raw.*\\.tif$"),
       "background" = select_files("^cal.*\\.tif$"),
       "cal" = select_files("^cal.*\\.tif$"),
+      "volume_summary" = file.path(.self$get_filename(what="postdata"), paste0(.self$name, "_volume_summary.csv")),
       .self$filelist
       )
    

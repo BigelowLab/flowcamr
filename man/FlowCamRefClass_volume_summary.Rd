@@ -4,7 +4,11 @@
 \alias{FlowCamRefClass_volume_summary}
 \title{Summarize by class and volume}
 \arguments{
-\item{include_name}{logical if TRUE include a colume for the data set name}
+\item{include_name}{logical if TRUE include a column for the data set name}
+
+\item{save_file}{logical if TRUE saves as CSV}
+
+\item{filename}{character if save_file is TRUE then save to this file}
 }
 \value{
 a data frame of 'UserLabel', 'Count' and 'Volume' or NULL
