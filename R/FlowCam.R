@@ -72,7 +72,7 @@ FlowCamRefClass$methods(
 NULL
 FlowCamRefClass$methods(
    volume_summary = function(include_name = FALSE, 
-        save_file = FALSE, filename = .self$get_file(what="volume_summary")){
+        save_file = FALSE, filename = NULL){
       if (!is.data.frame(.self$data)) return(NULL)
       if (all(c('PP_UserLabel', "PP_Vol") %in% colnames(.self$data)) ){
          tx <- table(.self$data[,'PP_UserLabel'])
@@ -88,7 +88,11 @@ FlowCamRefClass$methods(
          s <- data.frame(name = rep(.self$name, nrow(s)), 
             s, stringsAsFactors = FALSE)
       }
-      if (save_file) write.csv(s, filename[1], row.names = FALSE)
+      if (save_file) {
+        if (is.null(filename)) filename <- .self$get_filename("volume_summary", test = FALSE)
+        #cat("writing to", filename[1], "\n")
+        ok = write.csv(s, file=filename[1], row.names = FALSE)
+        }
       s
    })
 
@@ -162,7 +166,7 @@ FlowCamRefClass$methods(
       "raw"= select_files("^raw.*\\.tif$"),
       "background" = select_files("^cal.*\\.tif$"),
       "cal" = select_files("^cal.*\\.tif$"),
-      "volume_summary" = file.path(.self$get_filename(what="postdata"), paste0(.self$name, "_volume_summary.csv")),
+      "volume_summary" = file.path(paste0("_", .self$name), paste0(.self$name, "_volume_summary.csv")),
       .self$filelist
       )
    
